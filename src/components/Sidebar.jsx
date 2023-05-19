@@ -3,7 +3,6 @@ import { FaBars, FaTimes } from "react-icons/fa";
 import { categories } from "../data";
 import logo from "../assets/shopping.png";
 import { IoCart, IoBookmark, IoCaretDown, IoCaretUp, IoSearchOutline } from "react-icons/io5";
-import { Fade } from "react-reveal";
 import { Link } from "react-router-dom";
 import { Products } from "../context/Products";
 import Modal from "./Modal";
@@ -23,7 +22,6 @@ const Sidebar = () => {
   }
   return (
     <>
-      <Fade top>
         <div>
           <div className="flex flex-row justify-evenly p-4">
             <Link to='/' onClick={() => setNav(false)}>
@@ -56,7 +54,6 @@ const Sidebar = () => {
               {nav ? <FaTimes /> : <FaBars />}
             </button>
           </div>
-          <Fade right>
             <div
               className={
                 nav
@@ -109,9 +106,7 @@ const Sidebar = () => {
                 </button>
               </div>
             </div>
-          </Fade>
         </div>
-      </Fade>
       {isCartOpen ? <Modal /> : null}
     </>
   );

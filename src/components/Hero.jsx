@@ -7,7 +7,6 @@ import ThirdPic from "../assets/pic3.png";
 import { IoArrowForwardCircleSharp } from "react-icons/io5";
 import { Products } from "../context/Products";
 import { Link } from "react-router-dom";
-import { Fade } from "react-reveal";
 import Footer from "./Footer";
 import loading_gif from '../assets/loading.gif'
 
@@ -22,7 +21,6 @@ const Hero = () => {
 
   return (
     <div className="flex flex-col z-0">
-        <Fade bottom>
           <center>
             <div className="m-0 sm:p-2 xl:w-12/12">
               <Carousel
@@ -51,11 +49,9 @@ const Hero = () => {
               </span>
             </button>
           </center>
-        </Fade>
         <div className="flex flex-row flex-wrap p-0 justify-center -z-0">
           {products?.products.length ? (
             products?.products?.map((item) => (
-              <Fade bottom key={item.id}>
                 <div
                   className="w-5/12 xl:w-2/12 md:w-3/12 text-center shadow border-gray-light p-1 m-4 rounded"
                   key={item.id}
@@ -71,7 +67,7 @@ const Hero = () => {
                     <h1 className="sm:text-lg sm:font-medium">${item?.price}</h1>
                   </Link>
                 </div>
-              </Fade>
+
             ))
             ) : (
               <h1 className="text-5xl font-bold m-10 p-4 ">
@@ -79,7 +75,7 @@ const Hero = () => {
             </h1>
           )}
         </div>
-        {loading ? <div className="flex justify-center align-middle"><img src={loading_gif} className="w-1/10 h-1/10" alt="" /></div> : null}
+        {loading ? <div className="flex justify-center align-middle"><img src={loading_gif} className="w-1/ h-1/10" alt="" /></div> : null}
       <Footer />
     </div>
   );

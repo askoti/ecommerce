@@ -1,7 +1,6 @@
 import React, { useContext } from "react";
 import { Link, useParams } from "react-router-dom";
 import useFetchCategory from "../context/useFetchCategory";
-import { Fade } from "react-reveal";
 import { Products } from "../context/Products";
 
 const CategoriesPage = () => {
@@ -15,7 +14,6 @@ const CategoriesPage = () => {
   return (
     <div className="flex flex-row flex-wrap p-0 justify-center">
       {data?.map((item) => (
-        <Fade bottom key={item?.id}>
           <div
             className="w-5/12 xl:w-2/12 md:w-3/12 text-center shadow border-gray-light p-1 m-4 rounded"
             key={item?.id}
@@ -31,7 +29,6 @@ const CategoriesPage = () => {
               <h1 className="sm:text-lg sm:font-medium">${item?.price}</h1>
             </Link>
           </div>
-        </Fade>
       ))}
     </div>
   );

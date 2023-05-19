@@ -1,7 +1,6 @@
 import React from 'react'
 import { Link, useParams } from 'react-router-dom'
 import useFetchSearch from '../context/useFetchSearch'
-import { Fade } from 'react-reveal'
 
 const Search = () => {
     const {search} = useParams()
@@ -14,7 +13,6 @@ const Search = () => {
   return (
     <div className='flex flex-row flex-wrap justify-center p-0'>
         {data?.length ? data?.map((item) => (
-          <Fade bottom key={item?.id}>
             <div
               className="w-5/12 xl:w-2/12 md:w-3/12 text-center shadow border-gray-light p-1 m-4 rounded"
               key={item?.id}
@@ -30,10 +28,9 @@ const Search = () => {
                 <h1 className="sm:text-lg sm:font-medium">${item?.price}</h1>
               </Link>
             </div>
-          </Fade>
         )) : (
             <div className='text-center my-10 text-4xl font-semibold p-10 rounded shadow'>
-                <h1>We don't have the product you looking for</h1>
+                <h1>Wdon't have the product you looking for</h1>
             </div>
         )}
     </div>

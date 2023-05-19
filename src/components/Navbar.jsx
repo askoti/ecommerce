@@ -7,7 +7,6 @@ import {
   IoCaretUp,
   IoSearchOutline,
 } from "react-icons/io5";
-import { Fade } from "react-reveal";
 import { Products } from "../context/Products";
 import { Link } from "react-router-dom";
 import Modal from "./Modal";
@@ -19,7 +18,6 @@ const Navbar = () => {
     useContext(Products);
   return (
     <>
-      <Fade top>
         <nav className="flex flex-row justify-between p-4 shadow-md">
           <div className="flex flex-row justify-start ml-0">
             <Link to="/">
@@ -93,7 +91,6 @@ const Navbar = () => {
             </button>
           </div>
         </nav>
-      </Fade>
       {category ? <CategoriesModal setCategory={setCategory} /> : null}
       {isCartOpen ? <Modal /> : null}
     </>
