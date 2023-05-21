@@ -11,10 +11,7 @@ import Footer from "./Footer";
 import loading_gif from '../assets/loading.gif'
 
 const Hero = () => {
-  const { loading, products, error, limit, setLimit, nav } =
-    useContext(Products);
-  console.log(products);
-
+  const { loading, products, error, limit, setLimit, nav } = useContext(Products);
   if (loading) {
     <h1>Loading...</h1>
   }

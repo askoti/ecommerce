@@ -5,23 +5,23 @@ import { cartData, deletePFM, emptyCart } from "../data";
 import { Link } from "react-router-dom";
 
 const Modal = () => {
-  const { setIsCartOpen, cart, setCart, totalPrice, setTotalPrice, setNav } = useContext(Products);
+  const { setIsCartOpen, cart, setCart, totalPrice, setTotalPrice, handleCc } = useContext(Products);
+  const arr = []
+  cartData.forEach(data => {
+    arr.push(data?.price * data?.quantity)
+  })
 
-  const total = () => {
-    cartData.forEach((data) => {
-      const calc = data?.price * data?.quantity / 2;
-      setTotalPrice((prev) => prev += calc)
-    });
-  };
-  
-  const handleCc = () => {
-    setIsCartOpen(false)
-    setNav(false)
+  function addThemUp(myArray) {
+    var arrayTotal = myArray.length; 
+    var totalSum = 0;
+
+    for(var x = 0; x <arrayTotal; x++) {
+        totalSum += myArray[x];
+        setTotalPrice(totalSum)
+    }
   }
 
-  useEffect(() => {
-    total();
-  }, []);
+  addThemUp(arr)
 
   return (
     <div className="absolute my-20 left-1/2 trasform -translate-x-1/2 sm:w-2/3 w-11/12 bg-white border rounded-lg bg-opacity-90 z-10">

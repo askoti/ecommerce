@@ -1,6 +1,7 @@
 import axios from "axios";
 import React, { createContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { cartData } from "../data";
 
 export const Products = createContext();
 
@@ -16,6 +17,7 @@ const ProductsContext = ({ children }) => {
   const [isCartOpen, setIsCartOpen] = useState(false)
   const [totalPrice, setTotalPrice] = useState(0);
   const [search, setSearch] = useState('')
+  const [size, setSize] = useState(1);
   const navigate = useNavigate()
 
   const getProducts = async () => {
@@ -55,9 +57,13 @@ const ProductsContext = ({ children }) => {
   useEffect(() => {
     getProducts();
   }, [limit]);
-
+  
+  const handleCc = () => {
+    setIsCartOpen(false)
+    setNav(false)
+  }
   return (
-    <Products.Provider value={{ loading, products, error, limit, setLimit, nav, setNav, cart, setCart, isCartOpen, setIsCartOpen, deleteProductFromModal, totalPrice, setTotalPrice, search, setSearch, handleSearch }}>
+    <Products.Provider value={{ loading, products, error, limit, setLimit, nav, setNav, cart, setCart, isCartOpen, setIsCartOpen, deleteProductFromModal, totalPrice, setTotalPrice, search, setSearch, handleSearch, handleCc, size, setSize }}>
       {children}
     </Products.Provider>
   );

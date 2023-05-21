@@ -6,11 +6,10 @@ import { cartData } from "../data";
 import Footer from "./Footer";
 
 const SingleProduct = () => {
-  const [size, setSize] = useState(1);
   const { id } = useParams();
   const { data, loading, error } = useFetch(id);
   const [picIndex, setPicIndex] = useState(0);
-  const { cart, setCart } = useContext(Products);
+  const { cart, setCart, size, setSize } = useContext(Products);
 
   const handleData = (id) => {
     let findID = cartData.findIndex((obj) => obj.id == id);
