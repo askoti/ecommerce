@@ -1,17 +1,18 @@
-import React, { useRef } from "react";
-import { useContext } from "react";
+import React, { useRef, useContext } from "react";
 import { Products } from "../context/Products";
 import { cartData } from "../data";
 import emailjs from "@emailjs/browser";
 import Footer from "./Footer";
 import { useNavigate } from "react-router-dom";
+import { formatPrice } from "../context/formatPrice";
+
 const Checkout = () => {
   const { totalPrice, setCart, setTotalPrice } = useContext(Products);
   const tax = totalPrice % 99;
   const form = useRef();
-  let navigate = useNavigate()
-  
-  const sendEmail = async(e) => {
+  let navigate = useNavigate();
+
+  const sendEmail = async (e) => {
     e.preventDefault();
 
     emailjs
@@ -22,148 +23,155 @@ const Checkout = () => {
         "h_EcXJVVw6uu3Z0-H"
       )
       .then(
-        (result) => {
-          console.log(result);
-        },
-        (error) => {
-          console.log(error);
-        }
+        (result) => console.log(result),
+        (error) => console.log(error)
       );
-      navigate('/')
-      await form.current.reset()
-      setCart(0)
-      setTotalPrice(0)
-      cartData.splice(0, cartData.length); // This will delete all the elements in the array
-  };
 
-  console.log(cartData);
+    navigate("/");
+    await form.current.reset();
+    setCart(0);
+    setTotalPrice(0);
+    cartData.splice(0, cartData.length); // Clear cart
+  };
 
   return (
     <>
-      <div className="p-4 flex flex-wrap w-full justify-between">
-        <div className="md:w-1/2">
-          <h1 className="text-2xl p-4 font-serif font-semibold">
+      <div className="flex flex-wrap w-full p-6 md:p-12 justify-between">
+        {/* Form Section */}
+        <div className="md:w-1/2 bg-white rounded-xl shadow-lg p-6">
+          <h1 className="text-2xl font-semibold mb-6 text-gray-800">
             Payment Details
           </h1>
-          <form
-            action=""
-            ref={form}
-            onSubmit={sendEmail}
-            className="flex flex-col justify-evenly p-4"
-          >
-            <label htmlFor="email" className="font-thin">
-              Email Address
-            </label>
-            <input
-              type="email"
-              name="form_email"
-              className="border p-3 rounded my-3 sm:w-full w-11/12"
-              placeholder="youremail@something.com"
-              required
-            />
-            <label htmlFor="email" className="font-thin">
-              Name
-            </label>
-            <input
-              type="text"
-              name="form_name"
-              className="border p-3 rounded my-3 sm:w-full w-11/12"
-              placeholder="Name"
-              required
-            />
-            <label htmlFor="phone" className="font-thin">
-              Phone Number
-            </label>
-            <input
-              type="phone"
-              name="from_number"
-              className="border p-3 rounded my-3 sm:w-full w-11/12"
-              placeholder="+223-2425-2567"
-              required
-            />
-            <label htmlFor="" className="font-thin mx-0">
-              Country
-            </label>
-            <input
-              type="text"
-              name="country"
-              placeholder="USA"
-              className="border p-3 rounded my-3 sm:w-full w-11/12"
-            />
 
-            <label htmlFor="" className="font-thin mx-0">
-              City
-            </label>
-            <input
-              type="text"
-              name="city"
-              placeholder="New York"
-              className="border p-3 rounded my-3 sm:w-full w-11/12"
-            />
-
-            <div className="w-full flex flex-wrap justify-between align-baseline my-4">
-              <label htmlFor="expdate" className="font-thin my-4">
-                Street:
-              </label>
+          <form ref={form} onSubmit={sendEmail} className="flex flex-col gap-4">
+            {/* Email */}
+            <div>
+              <label className="text-sm text-gray-600">Email Address</label>
               <input
-                type="text"
-                placeholder="East 6 Street"
-                name="street"
-                className="border p-3 my-1 sm:mx-3 mx-6 rounded  sm:w-1/4 w-2/4"
-                required
-              />
-              <label htmlFor="cvv" className="font-thin my-4 mx-0">
-                Zip Code:
-              </label>
-              <input
-                type="number"
-                className="border p-3 rounded sm:w-2/5 w-3/6 sm:mx-3 mx-6 my-2"
-                name="zipcode"
-                placeholder="00000"
+                type="email"
+                name="form_email"
+                className="w-full border p-3 rounded-lg mt-1 focus:ring-2 focus:ring-blue-500 outline-none"
+                placeholder="youremail@something.com"
                 required
               />
             </div>
+
+            {/* Name */}
+            <div>
+              <label className="text-sm text-gray-600">Name</label>
+              <input
+                type="text"
+                name="form_name"
+                className="w-full border p-3 rounded-lg mt-1 focus:ring-2 focus:ring-blue-500 outline-none"
+                placeholder="John Doe"
+                required
+              />
+            </div>
+
+            {/* Phone */}
+            <div>
+              <label className="text-sm text-gray-600">Phone Number</label>
+              <input
+                type="tel"
+                name="from_number"
+                className="w-full border p-3 rounded-lg mt-1 focus:ring-2 focus:ring-blue-500 outline-none"
+                placeholder="+223-2425-2567"
+                required
+              />
+            </div>
+
+            {/* Country & City */}
+            <div className="flex flex-col sm:flex-row gap-4">
+              <div className="w-full">
+                <label className="text-sm text-gray-600">Country</label>
+                <input
+                  type="text"
+                  name="country"
+                  placeholder="USA"
+                  className="w-full border p-3 rounded-lg mt-1 focus:ring-2 focus:ring-blue-500 outline-none"
+                />
+              </div>
+              <div className="w-full">
+                <label className="text-sm text-gray-600">City</label>
+                <input
+                  type="text"
+                  name="city"
+                  placeholder="New York"
+                  className="w-full border p-3 rounded-lg mt-1 focus:ring-2 focus:ring-blue-500 outline-none"
+                />
+              </div>
+            </div>
+
+            {/* Street & Zip */}
+            <div className="flex flex-col sm:flex-row gap-4">
+              <div className="w-full">
+                <label className="text-sm text-gray-600">Street</label>
+                <input
+                  type="text"
+                  name="street"
+                  placeholder="East 6 Street"
+                  className="w-full border p-3 rounded-lg mt-1 focus:ring-2 focus:ring-blue-500 outline-none"
+                  required
+                />
+              </div>
+              <div className="w-full">
+                <label className="text-sm text-gray-600">Zip Code</label>
+                <input
+                  type="number"
+                  name="zipcode"
+                  placeholder="00000"
+                  className="w-full border p-3 rounded-lg mt-1 focus:ring-2 focus:ring-blue-500 outline-none"
+                  required
+                />
+              </div>
+            </div>
+
+            {/* Cart Summary */}
             <textarea
               readOnly
               name="message"
-              className="mt-6 bg-white hover:border-none"
-              id=""
-              defaultValue={cartData.map((item) => {
-                return `${item?.title} - ${item?.quantity}`;
-              })}
+              className="w-full p-3 border rounded-lg text-gray-700 bg-gray-50 mt-4"
+              defaultValue={cartData.map((item) => `${item?.title} - ${item?.quantity}`).join("\n")}
             ></textarea>
 
-            <h2 className="flex flex-row justify-between my-2 font-thin">
-              Subtotal: <span>${totalPrice}</span>
-            </h2>
-            <h2 className="flex flex-row justify-between my-2 font-thin">
-              Tax: <span>${tax}</span>
-            </h2>
-            <hr />
-
-            <h2 className="flex flex-row justify-between my-8 font-thin">
-              Total Amount:{" "}
-              <span>
+            {/* Price Summary */}
+            <div className="mt-4">
+              <h2 className="flex justify-between text-gray-600">
+                Subtotal: <span>${formatPrice(totalPrice)}</span>
+              </h2>
+              <h2 className="flex justify-between text-gray-600">
+                Tax: <span>${formatPrice(tax)}</span>
+              </h2>
+              <hr className="my-3" />
+              <h2 className="flex justify-between font-semibold text-lg text-gray-800">
+                Total Amount:{" "}
                 <input
-                  className="border-none text-right"
-                  type=""
+                  className="border-none bg-transparent text-right font-semibold w-24"
+                  type="text"
                   readOnly
-                  defaultValue={`$${totalPrice + tax}`}
+                  value={`$${formatPrice(totalPrice + tax)}`}
                   name="total_amount"
                 />
-              </span>
-            </h2>
+              </h2>
+            </div>
 
+            {/* Submit */}
             <button
-              className="bg-purple p-3 rounded-lg text-white"
+              className="mt-6 w-full bg-purple-600 hover:bg-purple-700 text-white py-3 rounded-lg shadow-md transition"
               type="submit"
             >
-              Order
+              Place Order
             </button>
           </form>
         </div>
-        <div className="w-1/2 hidden md:inline">
-          <img src="https://co-well.vn/wp-content/uploads/2019/12/what-is-checkout-page.png" alt="fwafa" className="h-screen md:w-full object-cover"/>
+
+        {/* Side Image */}
+        <div className="hidden md:block md:w-1/2 pl-8">
+          <img
+            src="https://co-well.vn/wp-content/uploads/2019/12/what-is-checkout-page.png"
+            alt="Checkout Illustration"
+            className="h-full w-full object-cover rounded-xl shadow-lg"
+          />
         </div>
       </div>
 

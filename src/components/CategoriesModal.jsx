@@ -5,28 +5,27 @@ import { Products } from "../context/Products";
 
 const CategoriesModal = ({ setCategory }) => {
   const { setSearch } = useContext(Products);
+
   const ctgHandler = () => {
     setCategory(false);
     setSearch(null);
   };
 
   return (
-    <div className="absolute left-2/4 top-20 w-1/3 h-1/4 bg-white border bg-opacity-95 z-10 p-6 rounded-md">
-      <div className="">
-        <ul className="flex flex-wrap justify-between align-middle my-4">
-          {categories.map(({ name, href, index }) => (
-            <li key={index} className="p-2">
-              <Link
-                to={`/categories/${href}`}
-                className="hover:text-blue"
-                onClick={ctgHandler}
-              >
-                {name}
-              </Link>
-            </li>
-          ))}
-        </ul>
-      </div>
+    <div className="bg-white border border-gray-200 shadow-lg rounded-lg p-4">
+      <ul className="flex flex-col gap-2">
+        {categories.map(({ name, href, index }) => (
+          <li key={index}>
+            <Link
+              to={`/categories/${href}`}
+              className="block px-3 py-2 rounded-md hover:bg-blue-50 hover:text-blue-600 transition"
+              onClick={ctgHandler}
+            >
+              {name}
+            </Link>
+          </li>
+        ))}
+      </ul>
     </div>
   );
 };

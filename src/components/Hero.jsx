@@ -1,5 +1,5 @@
-import React, { useContext } from "react";
-import "react-responsive-carousel/lib/styles/carousel.min.css"; // requires a loader
+import React, { useContext, useEffect } from "react";
+import "react-responsive-carousel/lib/styles/carousel.min.css";
 import { Carousel } from "react-responsive-carousel";
 import FirstPic from "../assets/pic1.png";
 import SecondPic from "../assets/pic2.png";
@@ -7,73 +7,131 @@ import ThirdPic from "../assets/pic3.png";
 import { IoArrowForwardCircleSharp } from "react-icons/io5";
 import { Products } from "../context/Products";
 import { Link } from "react-router-dom";
+import { formatPrice } from "../context/formatPrice";
 import Footer from "./Footer";
-import loading_gif from '../assets/loading.gif'
+import loading_gif from "../assets/loading.gif";
 
 const Hero = () => {
-  const { loading, products, error, limit, setLimit, nav } = useContext(Products);
+  const {
+    loading,
+    products,
+    page,
+    setPage,
+    limit,
+    total,
+    scrollY,
+    setScrollY,
+  } = useContext(Products);
+
+  // Save scroll position on unmount
+  useEffect(() => {
+    return () => {
+      setScrollY(window.scrollY);
+    };
+  }, [setScrollY]);
+
+  // Restore scroll position on mount
+  useEffect(() => {
+    if (scrollY > 0) {
+      window.scrollTo(0, scrollY);
+    }
+  }, [scrollY]);
+
   if (loading) {
-    <h1>Loading...</h1>
+    return (
+      <div className="flex justify-center items-center h-64">
+        <img src={loading_gif} className="w-20 h-20" alt="Loading..." />
+      </div>
+    );
   }
 
-  return (
-    <div className="flex flex-col z-0">
-          <center>
-            <div className="m-0 sm:p-2 xl:w-12/12">
-              <Carousel
-                interval={5000}
-                autoPlay
-                infiniteLoop
-                centerMode
-                dynamicHeight
-                emulateTouch
-              >
-                <div>
-                  <img src={FirstPic} className="brightness-95" />
-                </div>
-                <div>
-                  <img src={SecondPic} className="brightness-95" />
-                </div>
-                <div>
-                  <img src={ThirdPic} className="brightness-95" />
-                </div>
-              </Carousel>
-            </div>
-            <button className="flex align-baseline p-4 m-2 bg-gray-dark text-white text-lg rounded font-bold">
-              Shop Now{" "}
-              <span className="mt-1 ml-2 text-xl">
-                <IoArrowForwardCircleSharp />
-              </span>
-            </button>
-          </center>
-        <div className="flex flex-row flex-wrap p-0 justify-center -z-0">
-          {products?.products.length ? (
-            products?.products?.map((item) => (
-                <div
-                  className="w-5/12 xl:w-2/12 md:w-3/12 text-center shadow border-gray-light p-1 m-4 rounded"
-                  key={item.id}
-                >
-                  <Link to={`/product/${item.id}`}>
-                    <img
-                      src={item?.thumbnail}
-                      alt=""
-                      className="h-40 object-contain"
-                    />
-                    <hr />
-                    <p className="sm:text-xl sm:font-semibold font-medium mt-2">{item?.title}</p>
-                    <h1 className="sm:text-lg sm:font-medium">${item?.price}</h1>
-                  </Link>
-                </div>
+  const totalPages = Math.ceil(total / limit);
 
-            ))
-            ) : (
-              <h1 className="text-5xl font-bold m-10 p-4 ">
-              Couldn't find nothing
-            </h1>
-          )}
+  return (
+    <div className="flex flex-col">
+      {/* Hero Carousel */}
+
+      {/* CTA Button */}
+      <div className="flex justify-center mt-8">
+        <button className="flex items-center gap-3 px-8 py-4 bg-blue-600 hover:bg-blue-700 hover:scale-105 transition-transform duration-200 text-white text-xl rounded-full shadow-xl font-semibold">
+          Shop Now
+          <IoArrowForwardCircleSharp className="text-3xl rotate-90" />
+        </button>
+      </div>
+
+      {/* Product Grid */}
+      <div className="flex flex-wrap justify-center gap-8 mt-12 px-4">
+        {products?.length ? (
+          products.map((item) => (
+            <div
+              key={item.id}
+              className="w-56 md:w-64 lg:w-72 text-center bg-white rounded-2xl shadow-lg hover:shadow-2xl transition p-6"
+            >
+              <Link to={`/product/${item.id}`}>
+                <img
+                  src={item?.thumbnail}
+                  alt={item?.title}
+                  className="h-48 object-contain mx-auto mb-4"
+                />
+                <div className="border-t pt-4">
+                  <p className="text-lg sm:text-xl font-semibold truncate">
+                    {item?.title}
+                  </p>
+                  <h1 className="text-xl sm:text-2xl font-bold text-gray-800 mt-2">
+                    ${formatPrice(item?.price)}
+                  </h1>
+                </div>
+              </Link>
+            </div>
+          ))
+        ) : (
+          <h1 className="text-3xl font-bold text-gray-600 mt-10">
+            Couldn't find anything
+          </h1>
+        )}
+      </div>
+
+      {/* Pagination Controls */}
+      {totalPages > 1 && (
+        <div className="flex justify-center items-center gap-4 mt-12">
+          <button
+            className="px-4 py-2 bg-gray-200 rounded-lg hover:bg-gray-300 disabled:opacity-50"
+            disabled={page === 1}
+            onClick={() => setPage((prev) => prev - 1)}
+          >
+            Prev
+          </button>
+
+          <div className="flex gap-2">
+            {Array.from({ length: totalPages }, (_, i) => i + 1).map((num) => (
+              <button
+                key={num}
+                onClick={() => setPage(num)}
+                className={`px-4 py-2 rounded-lg ${
+                  num === page
+                    ? "bg-blue-600 text-white"
+                    : "bg-gray-200 hover:bg-gray-300"
+                }`}
+              >
+                {num}
+              </button>
+            ))}
+          </div>
+
+          <button
+            className="px-4 py-2 bg-gray-200 rounded-lg hover:bg-gray-300 disabled:opacity-50"
+            disabled={page === totalPages}
+            onClick={() => setPage((prev) => prev + 1)}
+          >
+            Next
+          </button>
         </div>
-        {loading ? <div className="flex justify-center align-middle"><img src={loading_gif} className="w-1/ h-1/10" alt="" /></div> : null}
-      <Footer />
+      )}
+
+      {/* Footer */}
+      <div className="mt-16">
+        <Footer />
+      </div>
     </div>
   );
 };

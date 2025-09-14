@@ -1,23 +1,24 @@
 import React, { useContext, useState } from "react";
 import useFetch from "../context/useFetch";
-import { Link, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import { Products } from "../context/Products";
 import { cartData } from "../data";
 import Footer from "./Footer";
 
 const SingleProduct = () => {
   const { id } = useParams();
-  const { data, loading, error } = useFetch(id);
+  const { data, loading } = useFetch(id);
   const [picIndex, setPicIndex] = useState(0);
   const { cart, setCart, size, setSize } = useContext(Products);
+  const navigate = useNavigate();
 
   const handleData = (id) => {
-    let findID = cartData.findIndex((obj) => obj.id == id);
+    let findID = cartData.findIndex((obj) => obj.id === id);
     if (cartData[findID]) {
-      cartData[findID].quantity = cartData[findID].quantity + size;
+      cartData[findID].quantity += size;
     } else {
       setCart(cart + 1);
-      let obj = {
+      const obj = {
         id: data?.id,
         title: data?.title,
         image: data?.images[0],
@@ -26,82 +27,127 @@ const SingleProduct = () => {
         quantity: size,
       };
       cartData.push(obj);
-
-      console.log(cartData);
     }
   };
 
   if (loading) {
-    return <h1>Loading...</h1>;
+    return (
+      <div className="flex justify-center items-center h-64">
+        <h1 className="text-2xl font-semibold text-gray-600">Loading...</h1>
+      </div>
+    );
   }
+
   return (
     <>
-      <div>
-        <div className="mt-8">
-          <Link to="/" className="p-4 m-6">◁ Back to Home</Link>
-          <div className="flex flex-row flex-wrap p-2 m-4 justify-between -z-10">
-            <div className="flex flex-row justify-evenly p-1 m-1 sm:w-6/12">
-                <div className="flex flex-col sm:w-2/5 sm:h-2/5 w-32 h-auto">
-                  {data?.images.map((img, index) => (
-                    <img
-                      src={img}
-                      key={index}
-                      alt=""
-                      className="sm:w-3/6 w-3/6 h-2/6 p-1 object-contain"
-                      onMouseOver={() => setPicIndex(index)}
-                    />
-                  ))}
-                </div>
-                <div className="flex sm:w-2/3 w-2/4">
-                  <img
-                    src={data?.images[picIndex]}
-                    alt=""
-                    className="w-full sm:object-none object-contain"
-                  />
-                </div>
+      <div className="mt-8 px-6">
+        {/* Back Link */}
+        <button
+          onClick={() => navigate(-1)}
+          className="inline-block mb-6 text-blue-600 hover:text-blue-800 font-medium"
+        >
+          ◁ Back
+        </button>
+
+        {/* Product Layout */}
+        <div className="flex flex-col lg:flex-row gap-10">
+          {/* Images */}
+          <div className="flex flex-col sm:flex-row gap-4 lg:w-1/2">
+            {/* Thumbnails */}
+            <div className="flex sm:flex-col gap-3 overflow-x-auto sm:overflow-y-auto sm:w-1/5">
+              {data?.images.map((img, index) => (
+                <img
+                  src={img}
+                  key={index}
+                  alt=""
+                  className={`w-20 h-20 object-contain border rounded-lg cursor-pointer transition ${
+                    index === picIndex
+                      ? "border-blue-600 ring-2 ring-blue-300"
+                      : "border-gray-200 hover:border-gray-400"
+                  }`}
+                  onMouseOver={() => setPicIndex(index)}
+                />
+              ))}
+            </div>
+            {/* Main Image */}
+            <div className="flex-1 flex items-center justify-center border rounded-lg bg-white shadow-sm">
+              <img
+                src={data?.images[picIndex]}
+                alt=""
+                className="w-full max-h-[500px] object-contain"
+              />
+            </div>
+          </div>
+
+          {/* Product Info */}
+          <div className="lg:w-1/2 flex flex-col gap-6">
+            <span className="inline-block bg-gray-800 text-white text-sm font-medium px-3 py-1 rounded-full w-fit">
+              {data?.brand}
+            </span>
+            <h1 className="text-3xl font-bold text-gray-800">{data?.title}</h1>
+            <h2 className="text-2xl font-semibold text-blue-600">
+              ${data?.price.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+            </h2>
+
+            {/* Details */}
+            <div className="text-gray-600 space-y-2">
+              <p>
+                <span className="font-semibold">Details: </span>
+                {data?.description}
+              </p>
+              <p>
+                <span className="font-semibold">Discount:</span>{" "}
+                {data?.discountPercentage}%
+              </p>
+              <p>
+                <span className="font-semibold">Rating: ⭐ </span>
+                {data?.rating}
+              </p>
+              <p>
+                <span className="font-semibold">Stock:</span> {data?.stock}
+              </p>
             </div>
 
-            <div className="flex flex-col flex-nowrap justify-start my-20 sm:mx-10 sm:w-5/12">
-                <p className="bg-gray p-2 text-white rounded">{data?.brand}</p>
-                <h1 className="sm:text-4xl text-xl font-semibold p-2">{data?.title}</h1>
-                <h1 className="sm:text-4xl text-md font-semibold p-2">${data?.price}</h1>
-                <div className="flex flex-col flex-nowrap p-2">
-                  <p className="my-2"><span className="font-semibold">Details: </span>{data?.description}</p>
-                  <p>Discount: {data?.discountPercentage}%</p>
-                  <p>Rating: {data?.rating}</p>
-                  <p>Stock: {data?.stock}</p>
-                </div>
-                <div className="flex flex-col mt-10 mx-auto">
-                  <div className="flex flex-row flex-nowrap justify-evenly p-3 m-1 sm:w-96 w-64">
-                    <button
-                      className="p-3 m-1"
-                      onClick={() => setSize(size === 0 ? size - 0 : size - 1)}
-                    >
-                      -
-                    </button>
-                    <p className="p-3 m-1 ">{size}</p>
-                    <button
-                      className="p-3 m-1"
-                      onClick={() => setSize(size + 1)}
-                    >
-                      +
-                    </button>
-                  </div>
-                  <button
-                    className="p-3 m-1 sm:w-96 w-64 bg-blue text-white rounded"
-                    onClick={() => handleData(id)}
-                  >
-                    Add to Cart
-                  </button>
-                  <button className="p-3 m-1 sm:w-96 w-64 text-gray rounded">
-                    Buy Now
-                  </button>
-                </div>
+            {/* Quantity Selector + Buttons */}
+            <div className="mt-6">
+              <div className="flex items-center gap-4 mb-4">
+                <button
+                  className="px-4 py-2 bg-gray-200 rounded hover:bg-gray-300 transition"
+                  onClick={() => setSize(Math.max(size - 1, 0))}
+                >
+                  -
+                </button>
+                <span className="px-6 py-2 border rounded text-lg font-medium">
+                  {size}
+                </span>
+                <button
+                  className="px-4 py-2 bg-gray-200 rounded hover:bg-gray-300 transition"
+                  onClick={() => setSize(size + 1)}
+                >
+                  +
+                </button>
+              </div>
+              <button
+                className="w-full sm:w-96 px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white rounded-lg shadow-md font-medium transition"
+                onClick={() => {
+                  handleData(data.id);
+                  setSize(1);
+                }}
+              >
+                Add to Cart
+              </button>
+              <button className="w-full sm:w-96 mt-3 px-6 py-3 border border-gray-400 text-gray-700 rounded-lg hover:bg-gray-100 transition">
+                Buy Now
+              </button>
             </div>
           </div>
         </div>
       </div>
-      <Footer />
+
+      {/* Footer */}
+      <div className="mt-12">
+        <Footer />
+      </div>
     </>
   );
 };

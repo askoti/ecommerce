@@ -16,83 +16,94 @@ const Navbar = () => {
   const [category, setCategory] = useState(false);
   const { search, setSearch, cart, isCartOpen, setIsCartOpen, handleSearch } =
     useContext(Products);
+
   return (
     <>
-        <nav className="flex flex-row justify-between p-4 shadow-md">
-          <div className="flex flex-row justify-start ml-0">
-            <Link to="/">
-              <img src={logo} alt="" className="w-20 p-2 m-0 align-middle " />
-            </Link>
+      <nav className="flex justify-between items-center p-4 shadow-md bg-white sticky top-0 z-20">
+        {/* Left: Logo + Search */}
+        <div className="flex items-center gap-4 w-1/2">
+          <Link to="/" className="shrink-0">
+            <img src={logo} alt="Shop Logo" className="w-16" />
+          </Link>
+          <div className="flex w-full max-w-md">
             <input
-              className="p-4 w-8/12 h-10 mt-5 ml-4 border rounded-l-md"
+              className="flex-1 px-4 py-2 border border-gray-light rounded-l-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
               type="text"
               placeholder="Search for a product..."
               value={search}
               onChange={(e) => setSearch(e.target.value)}
             />
-            {search === "" || null ? (
-              <button
-                disabled
-                className="p-4 mt-5 mx-4 border rounded h-10 text-xl align-top"
-                onClick={() => handleSearch()}
-              >
-                <IoSearchOutline className="-mt-2" />
-              </button>
-            ) : (
-              <button
-                className="p-4 mt-5 mx-4 border rounded h-10 text-xl align-top"
-                onClick={() => handleSearch()}
-              >
-                <IoSearchOutline className="-mt-2" />
-              </button>
-            )}
-          </div>
-          <div className="flex flex-row justify-start mt-3">
-            <ul className="flex flex-row justify-center ">
-              <li className="p-4 ">
-                <Link to="/" className="uppercase font-medium tracking-wider">
-                  Home
-                </Link>
-              </li>
-              <li className="p-4 flex flex-row -mt-2">
-                {" "}
-                <button
-                  onClick={() => setCategory(!category)}
-                  className="uppercase font-medium tracking-wider"
-                >
-                  Categories
-                </button>
-                <span className="m-0 p-3">
-                  {category ? <IoCaretDown /> : <IoCaretUp />}
-                </span>
-              </li>
-              <li className="p-4 ">
-                <Link
-                  to="/about"
-                  className="uppercase font-medium tracking-wider"
-                >
-                  About us
-                </Link>
-              </li>
-            </ul>
-          </div>
-          <div className="flex flex-row justify-start mr-12">
             <button
-              className="m-2 text-3xl relative"
-              onClick={() => setIsCartOpen(!isCartOpen)}
+              disabled={!search}
+              className={`px-4 py-2 rounded-r-lg text-xl flex items-center justify-center transition ${
+                search
+                  ? "bg-blue-600 text-white hover:bg-blue-700"
+                  : "bg-gray-200 text-gray cursor-not-allowed"
+              }`}
+              onClick={handleSearch}
             >
-              <IoCart />{" "}
-              <span className="absolute bottom-7 left-3 w-8 text-white bg-gray-dark rounded-full p-2 text-sm">
+              <IoSearchOutline />
+            </button>
+          </div>
+        </div>
+
+        {/* Middle: Nav links */}
+        <ul className="hidden md:flex gap-8 items-center font-sans text-sm md:text-base">
+          <li>
+            <Link
+              to="/"
+              className="px-3 py-2 uppercase font-medium tracking-wide hover:text-blue-600 transition"
+            >
+              Home
+            </Link>
+          </li>
+
+          {/* Categories with caret */}
+          <li className="relative">
+            <button
+              onClick={() => setCategory(!category)}
+              className="flex items-center gap-1 px-3 py-2 uppercase font-medium tracking-wide hover:text-blue-600 transition"
+            >
+              Categories {category ? <IoCaretUp /> : <IoCaretDown />}
+            </button>
+
+            {category && (
+              <div className="absolute left-0 top-full mt-2 w-60">
+                <CategoriesModal setCategory={setCategory} />
+              </div>
+            )}
+          </li>
+
+          <li>
+            <Link
+              to="/about"
+              className="px-3 py-2 uppercase font-medium tracking-wide hover:text-blue-600 transition"
+            >
+              About Us
+            </Link>
+          </li>
+        </ul>
+
+        {/* Right: Icons */}
+        <div className="flex items-center gap-6">
+          <button
+            className="relative text-3xl text-gray-dark hover:text-blue-600 transition"
+            onClick={() => setIsCartOpen(!isCartOpen)}
+          >
+            <IoCart />
+            {cart > 0 && (
+              <span className="absolute -top-2 -right-2 w-6 h-6 flex items-center justify-center text-xs font-bold text-white bg-black rounded-full">
                 {cart}
               </span>
-            </button>
-            <button className="m-2 text-3xl">
-              <IoBookmark />
-            </button>
-          </div>
-        </nav>
-      {category ? <CategoriesModal setCategory={setCategory} /> : null}
-      {isCartOpen ? <Modal /> : null}
+            )}
+          </button>
+          <button className="text-3xl text-gray-dark hover:text-blue-600 transition">
+            <IoBookmark />
+          </button>
+        </div>
+      </nav>
+
+      {isCartOpen && <Modal />}
     </>
   );
 };
