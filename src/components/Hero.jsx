@@ -55,26 +55,25 @@ const Hero = () => {
           <IoArrowForwardCircleSharp className="text-3xl rotate-90" />
         </button>
       </div>
-
       {/* Product Grid */}
-      <div className="flex flex-wrap justify-center gap-8 mt-12 px-4">
+      <div className="flex flex-wrap justify-center gap-4 mt-12 px-2 sm:px-4">
         {products?.length ? (
           products.map((item) => (
             <div
               key={item.id}
-              className="w-56 md:w-64 lg:w-72 text-center bg-white rounded-2xl shadow-lg hover:shadow-2xl transition p-6"
+              className="w-5/12 sm:w-48 md:w-56 lg:w-64 xl:w-72 text-center bg-white rounded-2xl shadow-lg hover:shadow-2xl transition p-3 sm:p-4"
             >
               <Link to={`/product/${item.id}`}>
                 <img
                   src={item?.thumbnail}
                   alt={item?.title}
-                  className="h-48 object-contain mx-auto mb-4"
+                  className="h-32 sm:h-36 md:h-40 lg:h-44 xl:h-48 object-contain mx-auto mb-3"
                 />
-                <div className="border-t pt-4">
-                  <p className="text-lg sm:text-xl font-semibold truncate">
+                <div className="border-t pt-3">
+                  <p className="text-sm sm:text-base md:text-lg font-semibold truncate">
                     {item?.title}
                   </p>
-                  <h1 className="text-xl sm:text-2xl font-bold text-gray-800 mt-2">
+                  <h1 className="text-base sm:text-lg md:text-xl font-bold text-gray-800 mt-1">
                     ${formatPrice(item?.price)}
                   </h1>
                 </div>
