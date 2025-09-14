@@ -29,22 +29,22 @@ This project demonstrates a full shopping experience — from browsing products,
 - **Routing:** React Router DOM  
 - **Forms & Email:** EmailJS  
 - **Data:** Context API + Custom Hooks  
-- **Deployment:** Vercel / Netlify (depending on where you host it)
+- **Deployment:** Vercel
 
 ---
 
 ## 📂 Project Structure
 
-📦 ecommerce-23
-┣ 📂 src
-┃ ┣ 📂 assets # Images and icons
-┃ ┣ 📂 components # Reusable UI components
-┃ ┣ 📂 context # Global state and hooks
-┃ ┣ 📂 pages # Main pages (Home, About, Checkout, etc.)
-┃ ┣ 📜 App.js
-┃ ┗ 📜 index.js
-┣ 📜 package.json
-┗ 📜 README.md
+- 📦 ecommerce-23
+- ┣ 📂 src
+- ┃ ┣ 📂 assets # Images and icons
+- ┃ ┣ 📂 components # Reusable UI components
+- ┃ ┣ 📂 context # Global state and hooks
+- ┃ ┣ 📂 pages # Main pages (Home, About, Checkout, etc.)
+- ┃ ┣ 📜 App.js
+- ┃ ┗ 📜 index.js
+- ┣ 📜 package.json
+- ┗ 📜 README.md
 
 
 ---
