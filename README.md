@@ -1,4 +1,4 @@
-# 🛒 Ecommerce-23
+# 🛒 Ecommerce
 
 A modern, responsive **E-commerce web application** built with **React** and styled with **Tailwind CSS**.  
 This project demonstrates a full shopping experience — from browsing products, searching categories, adding items to cart, and checking out — all wrapped in a clean and professional UI.
@@ -6,7 +6,7 @@ This project demonstrates a full shopping experience — from browsing products,
 ---
 
 ## 🚀 Live Demo
-👉 [Check out the live website here](https://your-deployed-link.com)
+👉 [Check out the live website here](ecommerce-khaki-pi-56.vercel.app)
 
 ---
 
