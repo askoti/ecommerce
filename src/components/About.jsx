@@ -1,37 +1,56 @@
 import React from "react";
 import Footer from "./Footer";
+import { FaShippingFast, FaRegSmile, FaShoppingCart } from "react-icons/fa";
 
 const About = () => {
   return (
-    <div className="flex flex-col min-h-screen">
+    <div className="flex flex-col min-h-screen bg-gray-50">
       {/* Page Content */}
-      <div className="flex flex-col items-center text-center px-6 py-12 flex-grow">
-        <h1 className="text-3xl sm:text-4xl font-bold mb-6 text-gray-800">
+      <div className="flex flex-col items-center text-center px-6 py-16 flex-grow">
+        <h1 className="text-4xl sm:text-5xl font-bold mb-6 text-gray-800">
           About Us
         </h1>
-        <p className="max-w-3xl text-base sm:text-lg text-gray-600 leading-relaxed text-justify">
-          Welcome to our ecommerce website! Our company was founded in 2021 with
-          the goal of making it easy for people to buy high-quality products
-          online. We believe that everyone should have access to affordable and
-          convenient shopping options, and we're proud to offer a wide range of
-          products to suit all tastes and budgets.
+        <p className="max-w-3xl text-lg text-gray-600 leading-relaxed text-justify mb-6">
+          Welcome to <span className="font-semibold text-gray-800">Ecommerce-23</span> — your
+          trusted destination for high-quality products online. Since our
+          founding in 2021, our mission has been simple: to make shopping
+          convenient, affordable, and enjoyable for everyone.
         </p>
-        <p className="max-w-3xl text-base sm:text-lg text-gray-600 leading-relaxed text-justify mt-4">
-          Our mission is to provide our customers with an exceptional online
-          shopping experience. Whether you're looking for the latest fashion
-          trends, high-tech gadgets, or everyday household essentials, we've got
-          you covered. Our ecommerce website is designed to be user-friendly and
-          intuitive, so you can easily find what you're looking for and place
-          your order with confidence.
-        </p>
-        <p className="max-w-3xl text-base sm:text-lg text-gray-600 leading-relaxed text-justify mt-4">
-          At our company, we're committed to delivering exceptional value to our
-          customers. We source our products from trusted suppliers around the
-          world and offer them at competitive prices. We also provide fast and
-          reliable shipping options, so you can get your products delivered
-          right to your doorstep. Our team is made up of passionate and
-          dedicated professionals who are committed to providing the best
-          possible service.
+
+        <div className="grid sm:grid-cols-3 gap-8 max-w-4xl w-full mt-8">
+          {/* Fast Shipping */}
+          <div className="flex flex-col items-center bg-white rounded-xl shadow-md p-6 hover:shadow-xl transition">
+            <FaShippingFast className="text-purple-600 text-4xl mb-4" />
+            <h3 className="text-xl font-semibold mb-2 text-gray-800">Fast & Reliable Shipping</h3>
+            <p className="text-gray-600 text-sm leading-relaxed">
+              Get your products delivered quickly and safely to your doorstep.
+            </p>
+          </div>
+
+          {/* Customer Happiness */}
+          <div className="flex flex-col items-center bg-white rounded-xl shadow-md p-6 hover:shadow-xl transition">
+            <FaRegSmile className="text-purple-600 text-4xl mb-4" />
+            <h3 className="text-xl font-semibold mb-2 text-gray-800">Customer Satisfaction</h3>
+            <p className="text-gray-600 text-sm leading-relaxed">
+              We are committed to providing a delightful shopping experience
+              and top-notch customer support.
+            </p>
+          </div>
+
+          {/* Wide Product Selection */}
+          <div className="flex flex-col items-center bg-white rounded-xl shadow-md p-6 hover:shadow-xl transition">
+            <FaShoppingCart className="text-purple-600 text-4xl mb-4" />
+            <h3 className="text-xl font-semibold mb-2 text-gray-800">Wide Product Range</h3>
+            <p className="text-gray-600 text-sm leading-relaxed">
+              Explore a variety of products carefully curated to suit all
+              tastes and budgets.
+            </p>
+          </div>
+        </div>
+
+        <p className="max-w-3xl text-lg text-gray-600 leading-relaxed text-justify mt-12">
+          Our team of passionate professionals ensures that every order is
+          handled with care, and every customer is valued. At <span className="font-semibold text-gray-800">Ecommerce-23</span>, we combine quality, convenience, and affordability so you can shop confidently and enjoyably.
         </p>
       </div>
 

@@ -14,7 +14,6 @@ const Checkout = () => {
 
   const sendEmail = async (e) => {
     e.preventDefault();
-
     emailjs
       .sendForm(
         "service_bpya9hc",
@@ -35,15 +34,15 @@ const Checkout = () => {
   };
 
   return (
-    <>
-      <div className="flex flex-wrap w-full p-6 md:p-12 justify-between">
+    <div className="flex flex-col min-h-screen bg-gray-50">
+      <main className="flex-grow flex justify-center items-start p-6 md:p-12">
         {/* Form Section */}
-        <div className="md:w-1/2 bg-white rounded-xl shadow-lg p-6">
-          <h1 className="text-2xl font-semibold mb-6 text-gray-800">
-            Payment Details
+        <div className="w-full max-w-3xl bg-white rounded-xl shadow-lg p-8 md:p-12">
+          <h1 className="text-3xl font-semibold mb-8 text-gray-800 text-center">
+            Checkout
           </h1>
 
-          <form ref={form} onSubmit={sendEmail} className="flex flex-col gap-4">
+          <form ref={form} onSubmit={sendEmail} className="flex flex-col gap-5">
             {/* Email */}
             <div>
               <label className="text-sm text-gray-600">Email Address</label>
@@ -58,7 +57,7 @@ const Checkout = () => {
 
             {/* Name */}
             <div>
-              <label className="text-sm text-gray-600">Name</label>
+              <label className="text-sm text-gray-600">Full Name</label>
               <input
                 type="text"
                 name="form_name"
@@ -75,7 +74,7 @@ const Checkout = () => {
                 type="tel"
                 name="from_number"
                 className="w-full border p-3 rounded-lg mt-1 focus:ring-2 focus:ring-blue-500 outline-none"
-                placeholder="+223-2425-2567"
+                placeholder="+1-123-456-7890"
                 required
               />
             </div>
@@ -131,11 +130,13 @@ const Checkout = () => {
               readOnly
               name="message"
               className="w-full p-3 border rounded-lg text-gray-700 bg-gray-50 mt-4"
-              defaultValue={cartData.map((item) => `${item?.title} - ${item?.quantity}`).join("\n")}
+              defaultValue={cartData
+                .map((item) => `${item?.title} - ${item?.quantity}`)
+                .join("\n")}
             ></textarea>
 
             {/* Price Summary */}
-            <div className="mt-4">
+            <div className="mt-4 space-y-1">
               <h2 className="flex justify-between text-gray-600">
                 Subtotal: <span>${formatPrice(totalPrice)}</span>
               </h2>
@@ -157,26 +158,17 @@ const Checkout = () => {
 
             {/* Submit */}
             <button
-              className="mt-6 w-full bg-purple-600 hover:bg-purple-700 text-white py-3 rounded-lg shadow-md transition"
               type="submit"
+              className="mt-6 w-full bg-purple-600 hover:bg-purple-700 text-white py-3 rounded-lg shadow-md transition"
             >
               Place Order
             </button>
           </form>
         </div>
-
-        {/* Side Image */}
-        <div className="hidden md:block md:w-1/2 pl-8">
-          <img
-            src="https://co-well.vn/wp-content/uploads/2019/12/what-is-checkout-page.png"
-            alt="Checkout Illustration"
-            className="h-full w-full object-cover rounded-xl shadow-lg"
-          />
-        </div>
-      </div>
+      </main>
 
       <Footer />
-    </>
+    </div>
   );
 };
 

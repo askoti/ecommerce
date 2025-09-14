@@ -49,9 +49,6 @@ const Hero = () => {
 
   return (
     <div className="flex flex-col">
-      {/* Hero Carousel */}
-
-      {/* CTA Button */}
       <div className="flex justify-center mt-8">
         <button className="flex items-center gap-3 px-8 py-4 bg-blue-600 hover:bg-blue-700 hover:scale-105 transition-transform duration-200 text-white text-xl rounded-full shadow-xl font-semibold">
           Shop Now
