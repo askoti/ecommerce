@@ -6,7 +6,7 @@ This project demonstrates a full shopping experience — from browsing products,
 ---
 
 ## 🚀 Live Demo
-👉 [Check out the live website here](ecommerce-khaki-pi-56.vercel.app)
+👉 [Check out the live website here]((https://ecommerce-khaki-pi-56.vercel.app))
 
 ---
 
